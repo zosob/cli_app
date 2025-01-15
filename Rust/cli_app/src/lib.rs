@@ -6,7 +6,9 @@ use std::error::Error;
 pub fn run(config: Config)-> Result<(), Box<dyn Error>>{
     let contents = fs::read_to_string(config.filename)?; //Automatically returns an error...
 
-    println!("With text: \n{}",contents);
+    for line in search(&config.query, &contents){
+        println!("Line found: {}", line);
+    }
     Ok(())
 }
 
@@ -32,7 +34,6 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     for line in contents.lines(){
         if line.contains(query){
             results.push(line);
-
         }
     }
     results
